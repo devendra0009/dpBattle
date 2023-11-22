@@ -61,6 +61,8 @@ export const createContest = async (req, res) => {
       return res.status(400).json({ msg: "Issue with User, can't be updated" });
     }
     // console.log(savedContest);
+    // automatically countdown start krde iska 
+    await Contest.updateStatusAfterDuration(newContest._id);
     res.status(201).json({ contest: savedContest });
   } catch (error) {
     console.log(error.message);
@@ -97,7 +99,7 @@ export const joinContest = async (req, res) => {
       return res.status(404).json({ msg: 'Contest not found or not updated' });
     }
     // console.log(updatedContest);
-
+    await Contest.updateStatusAfterDuration(updatedContest._id);
     res.status(200).json({ updatedContest: updatedContest });
   } catch (error) {
     res.status(500).json({ msg: 'Internal Server Error!' });
@@ -187,8 +189,10 @@ export const createContestWithFriend = async (req, res) => {
     // console.log('after contest created', updatedUserA, updatedUserB);
 
     // console.log(savedContest);
+    await Contest.updateStatusAfterDuration(savedContest._id);
     return res.status(201).json({ contest: savedContest });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ msg: 'Internal Server Error!' });
   }
 };

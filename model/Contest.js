@@ -29,6 +29,7 @@ const ContestSchema = new Schema({
 });
 
 ContestSchema.statics.updateStatusAfterDuration = async function (contestId) {
+  console.log('autom set to countdown to finish!');
   const contest = await this.findById(contestId);
 
   if (contest && contest.status === 'fighting') {
@@ -47,11 +48,17 @@ ContestSchema.statics.updateStatusAfterDuration = async function (contestId) {
     // Calculate the remaining time in milliseconds
     const remainingTime = endTime - Date.now();
 
-    // Set a timeout to update the contest status after the specified duration
-    setTimeout(async () => {
+    if (remainingTime > 0) {
+      // Set a timeout to update the contest status after the specified duration
+      setTimeout(async () => {
+        await this.findByIdAndUpdate(contestId, { status: 'closed' });
+        console.log(`Contest ${contestId} status updated to 'closed'`);
+      }, remainingTime);
+    } else {
+      // If remainingTime is negative or zero, immediately close the contest
       await this.findByIdAndUpdate(contestId, { status: 'closed' });
-      console.log(`Contest ${contestId} status updated to 'closed'`);
-    }, remainingTime);
+      console.log(`Contest ${contestId} status updated to 'closed' immediately`);
+    }
   }
 };
 

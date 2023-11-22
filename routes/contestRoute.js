@@ -18,12 +18,16 @@ router
   .get('/getAllContests', getAllContests)
   .get('/getContestByContestId/:id', getContestByContestId)
   .get('/getContestByUserId', getContestByUserId)
-  .post('/createContest',singleUploadMulter, createContest)
-  .post('/createContestWithFriend', mulitpleUploadMulter,createContestWithFriend)
-  .patch('/joinContest/:id', singleUploadMulter,joinContest)
+  .post('/createContest', singleUploadMulter, createContest)
+  .post(
+    '/createContestWithFriend',
+    mulitpleUploadMulter,
+    createContestWithFriend
+  )
+  .patch('/joinContest/:id', singleUploadMulter, joinContest)
   .patch('/updateContest', updateContest) // if contest is active but date is expired so update
   // .delete('/deleteContestByContestId', deleteContestByContestId); // this can be done by Admin only
   .delete('/deleteContestByContestId', deleteContestByContestId)
-  .delete('/deleteContestByUserId', deleteContestByUserId); 
+  .delete('/deleteContestByUserId', deleteContestByUserId);
 
 export default router;
