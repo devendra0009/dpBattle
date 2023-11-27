@@ -55,11 +55,11 @@ export const loginUser = async (req, res) => {
     }
 
     // Compare the provided password with the hashed password in the database
-    // const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    // if (!isPasswordValid) {
-    //   return res.status(401).json({ msg: 'Invalid email or password' });
-    // }
+    if (!isPasswordValid) {
+      return res.status(401).json({ msg: 'Invalid email or password' });
+    }
 
     // Generate a token for the authenticated user
     const sendUser = sanitizeUser(user);
